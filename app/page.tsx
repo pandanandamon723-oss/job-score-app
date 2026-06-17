@@ -82,8 +82,10 @@ const parseJobPostText = (text: string) => {
   const commute = extractFirstMatch(singleLine, /通勤時間[:：]?\s*([0-9]{1,3}分)/);
 
   const nightShift = /夜勤|深夜|二交代|三交代|交替勤務|交代制/.test(singleLine);
-  const fixedOvertime = /固定残業代|みなし残業/.test(singleLine);
-
+  const fixedOvertime =
+  /(固定残業代|みなし残業)[^。\n]{0,20}(あり|有|含む|込み|支給)/.test(singleLine) &&
+  !/(固定残業代|みなし残業)[^。\n]{0,20}(なし|無し|無|含まない)/.test(singleLine);
+  
   const jobMemo = extractFirstMatch(normalized, /仕事内容[:：]?\s*([^\n]+)/) || extractFirstMatch(normalized, /業務内容[:：]?\s*([^\n]+)/) || "";
   const concerns = extractFirstMatch(normalized, /気になる点[:：]?\s*([^\n]+)/) || extractFirstMatch(normalized, /不安|懸念[:：]?\s*([^\n]+)/) || "";
 
@@ -537,6 +539,8 @@ export default function Home() {
 
   const [copyStatus, setCopyStatus] = useState<"idle" | "success" | "error">("idle");
   const [copyError, setCopyError] = useState("");
+  const [compareList, setCompareList] = useState<any[]>([]);
+const [compareMessage, setCompareMessage] = useState("");
 
   const generateResultText = () => {
     const lines: string[] = [];
@@ -593,6 +597,56 @@ export default function Home() {
       setTimeout(() => setCopyStatus("idle"), 5000);
     }
   };
+  const handleAddToCompare = () => {
+  setCompareMessage("");
+
+  if (compareList.length >= 3) {
+    setCompareMessage("比較できる求人は最大3件までです。");
+    return;
+  }
+
+  const exists = compareList.some(
+    (item) =>
+      item.companyName === formData.companyName &&
+      item.jobTitle === formData.jobTitle
+  );
+
+  if (exists) {
+    setCompareMessage("この求人はすでに比較リストに追加されています。");
+    return;
+  }
+
+  const newItem = {
+    id: Date.now(),
+    companyName: formData.companyName || "会社名未入力",
+    jobTitle: formData.jobTitle || "職種未入力",
+    industry: formData.industry,
+    salary: formData.salary,
+    annualIncome: formData.annualIncome,
+    annualHolidays: formData.annualHolidays,
+    overtime: formData.overtime,
+    commute: formData.commute,
+    nightShift: formData.nightShift,
+    fixedOvertime: formData.fixedOvertime,
+    overallScore,
+    familyTimeScore,
+    lifestyleRisk,
+    blackSmellPoint,
+    selfMatchScore,
+    physicalRisk,
+    homeImpactRisk,
+    valueMismatch,
+    evaluationLabel,
+  };
+
+  setCompareList([...compareList, newItem]);
+  setCompareMessage("比較リストに追加しました。");
+};
+
+const handleRemoveFromCompare = (id: number) => {
+  setCompareList(compareList.filter((item) => item.id !== id));
+  setCompareMessage("比較リストから削除しました。");
+};
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-800 font-sans">
@@ -974,12 +1028,23 @@ export default function Home() {
                   >
                     診断結果をコピー
                   </button>
+                  
+                  <button
+  type="button"
+  onClick={handleAddToCompare}
+  className="inline-flex items-center justify-center rounded-md bg-emerald-600 px-3 py-1 text-sm font-semibold text-white hover:bg-emerald-700"
+>
+  比較リストに追加
+</button>
                   {copyStatus === "success" && (
                     <span className="text-sm text-emerald-600">コピーしました</span>
                   )}
                   {copyStatus === "error" && (
                     <span className="text-sm text-red-600">{copyError}</span>
                   )}
+                  {compareMessage && (
+  <span className="text-sm text-slate-600">{compareMessage}</span>
+)}
                 </div>
               </div>
               <div className="mt-4 space-y-4">
@@ -1096,31 +1161,74 @@ export default function Home() {
         </div>
 
         <section className="mt-8">
-          <h3 className="text-lg font-semibold text-slate-900 mb-4">比較イメージ</h3>
-          <div className="flex gap-4 overflow-x-auto pb-2">
-            {['求人A', '求人B', '求人C'].map((name) => (
-              <div key={name} className="min-w-[220px] flex-shrink-0 rounded-lg bg-white p-4 shadow">
-                <div className="flex items-center justify-between">
-                  <strong className="text-sm">{name}</strong>
-                  <span className="text-xs text-slate-500">東京都／年収例</span>
-                </div>
-                <div className="mt-3 text-sm text-slate-700">
-                  <p className="font-medium">会社名: サンプル株式会社</p>
-                  <p className="mt-2">月給: ¥300,000 · 残業: 月30h</p>
-                </div>
-                <div className="mt-4 flex items-center justify-between">
-                  <div>
-                    <div className="text-xs text-slate-500">総合</div>
-                    <div className="text-sm font-semibold">78</div>
-                  </div>
-                  <div>
-                    <button className="rounded-md bg-slate-900 px-3 py-1 text-sm text-white">比較に追加</button>
-                  </div>
-                </div>
-              </div>
-            ))}
+  <h3 className="text-lg font-semibold text-slate-900 mb-4">求人比較リスト</h3>
+
+  {compareList.length === 0 ? (
+    <div className="rounded-lg bg-white p-6 text-sm text-slate-600 shadow">
+      まだ比較リストに求人が追加されていません。評価カードの「比較リストに追加」ボタンから追加できます。
+    </div>
+  ) : (
+    <div className="flex gap-4 overflow-x-auto pb-2">
+      {compareList.map((item) => (
+        <div key={item.id} className="min-w-[260px] flex-shrink-0 rounded-lg bg-white p-4 shadow">
+          <div className="flex items-start justify-between gap-3">
+            <div>
+              <strong className="text-sm text-slate-900">{item.companyName}</strong>
+              <p className="mt-1 text-xs text-slate-500">{item.jobTitle}</p>
+            </div>
+            <button
+              type="button"
+              onClick={() => handleRemoveFromCompare(item.id)}
+              className="rounded-md bg-slate-100 px-2 py-1 text-xs text-slate-600 hover:bg-slate-200"
+            >
+              削除
+            </button>
           </div>
-        </section>
+
+          <div className="mt-3 space-y-1 text-sm text-slate-700">
+            <p>業界：{item.industry || "-"}</p>
+            <p>月給：{item.salary || "-"}</p>
+            <p>想定年収：{item.annualIncome || "-"}</p>
+            <p>年間休日：{item.annualHolidays || "-"}</p>
+            <p>残業：{item.overtime || "-"}</p>
+            <p>通勤：{item.commute || "-"}</p>
+            <p>夜勤：{item.nightShift ? "あり" : "なし"}</p>
+            <p>固定残業代：{item.fixedOvertime ? "あり" : "なし"}</p>
+          </div>
+
+          <div className="mt-4 rounded-lg bg-slate-50 p-3 text-sm">
+            <div className="flex justify-between">
+              <span>総合スコア</span>
+              <strong>{item.overallScore}</strong>
+            </div>
+            <div className="mt-1 flex justify-between">
+              <span>家族時間</span>
+              <strong>{item.familyTimeScore}</strong>
+            </div>
+            <div className="mt-1 flex justify-between">
+              <span>生活破壊リスク</span>
+              <strong className="text-red-700">{item.lifestyleRisk}</strong>
+            </div>
+            <div className="mt-1 flex justify-between">
+              <span>ブラック臭</span>
+              <strong className="text-red-700">{item.blackSmellPoint}</strong>
+            </div>
+            <div className="mt-1 flex justify-between">
+              <span>相性</span>
+              <strong>{item.selfMatchScore}</strong>
+            </div>
+          </div>
+
+          <div className="mt-4">
+            <span className="inline-flex rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-800">
+              {item.evaluationLabel}
+            </span>
+          </div>
+        </div>
+      ))}
+    </div>
+  )}
+</section>
 
         <footer className="mt-10 text-center text-sm text-slate-500">
           ※この画面は見た目のMVPです。保存やログイン機能は未実装です。
