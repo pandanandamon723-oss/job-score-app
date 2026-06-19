@@ -85,7 +85,7 @@ const parseJobPostText = (text: string) => {
   const fixedOvertime =
   /(固定残業代|みなし残業)[^。\n]{0,20}(あり|有|含む|込み|支給)/.test(singleLine) &&
   !/(固定残業代|みなし残業)[^。\n]{0,20}(なし|無し|無|含まない)/.test(singleLine);
-  
+
   const jobMemo = extractFirstMatch(normalized, /仕事内容[:：]?\s*([^\n]+)/) || extractFirstMatch(normalized, /業務内容[:：]?\s*([^\n]+)/) || "";
   const concerns = extractFirstMatch(normalized, /気になる点[:：]?\s*([^\n]+)/) || extractFirstMatch(normalized, /不安|懸念[:：]?\s*([^\n]+)/) || "";
 
@@ -647,6 +647,23 @@ const handleRemoveFromCompare = (id: number) => {
   setCompareList(compareList.filter((item) => item.id !== id));
   setCompareMessage("比較リストから削除しました。");
 };
+const rankedCompareList = [...compareList].sort((a, b) => {
+  const scoreA =
+    a.overallScore * 0.5 +
+    a.familyTimeScore * 0.25 +
+    a.selfMatchScore * 0.25 -
+    a.lifestyleRisk * 0.2 -
+    a.blackSmellPoint * 0.2;
+
+  const scoreB =
+    b.overallScore * 0.5 +
+    b.familyTimeScore * 0.25 +
+    b.selfMatchScore * 0.25 -
+    b.lifestyleRisk * 0.2 -
+    b.blackSmellPoint * 0.2;
+
+  return scoreB - scoreA;
+});
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-800 font-sans">
@@ -1169,10 +1186,13 @@ const handleRemoveFromCompare = (id: number) => {
     </div>
   ) : (
     <div className="flex gap-4 overflow-x-auto pb-2">
-      {compareList.map((item) => (
+      {rankedCompareList.map((item, index) => (
         <div key={item.id} className="min-w-[260px] flex-shrink-0 rounded-lg bg-white p-4 shadow">
           <div className="flex items-start justify-between gap-3">
             <div>
+              <span className="mb-2 inline-flex rounded-full bg-amber-100 px-3 py-1 text-xs font-bold text-amber-800">
+  おすすめ{index + 1}位
+</span>
               <strong className="text-sm text-slate-900">{item.companyName}</strong>
               <p className="mt-1 text-xs text-slate-500">{item.jobTitle}</p>
             </div>
