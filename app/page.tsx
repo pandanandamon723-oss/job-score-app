@@ -1117,7 +1117,24 @@ const rankedCompareList = [...compareList].sort((a, b) => {
 
                 <div className="mt-3 border-t pt-3">
                   <span className="text-sm font-medium">総合コメント</span>
-                  <p className="mt-2 text-sm leading-6 text-slate-600">{summaryComment}</p>
+
+<div className="mt-3 flex gap-3 rounded-2xl border border-amber-100 bg-amber-50/60 p-3">
+  <img
+    src="/latte.png"
+    alt="カワウソ相談員ラテ"
+    className="h-14 w-14 flex-shrink-0 rounded-full object-cover"
+  />
+  <div>
+    <p className="text-sm font-semibold text-slate-900">
+      ラテからひとこと
+    </p>
+    <p className="mt-1 text-sm leading-6 text-slate-600">
+      焦らず、条件を一つずつ整理していきましょう。数字だけでなく、生活への影響も大切な判断材料です。
+    </p>
+  </div>
+</div>
+
+<p className="mt-3 text-sm leading-6 text-slate-600">{summaryComment}</p>
                 </div>
 
                 <div className="mt-3 border-t pt-3">
@@ -1181,10 +1198,20 @@ const rankedCompareList = [...compareList].sort((a, b) => {
   <h3 className="text-lg font-semibold text-slate-900 mb-4">求人比較リスト</h3>
 
   {compareList.length === 0 ? (
-    <div className="rounded-lg bg-white p-6 text-sm text-slate-600 shadow">
-      まだ比較リストに求人が追加されていません。評価カードの「比較リストに追加」ボタンから追加できます。
-    </div>
-  ) : (
+  <div className="flex flex-col items-center justify-center rounded-2xl border border-slate-200 bg-white p-8 text-center shadow-sm">
+    <img
+      src="/latte.png"
+      alt="カワウソ相談員ラテ"
+      className="mb-4 h-40 w-40 rounded-full object-cover"
+    />
+    <h4 className="text-lg font-bold text-slate-900">
+      ラテが求人比較をお手伝いします
+    </h4>
+    <p className="mt-2 max-w-md text-sm leading-6 text-slate-600">
+      気になる求人を比較リストに追加すると、年収だけでは見えない生活への負担や相性を一緒に整理できます。
+    </p>
+  </div>
+) : (
     <div className="flex gap-4 overflow-x-auto pb-2">
       {rankedCompareList.map((item, index) => (
         <div key={item.id} className="min-w-[260px] flex-shrink-0 rounded-lg bg-white p-4 shadow">
