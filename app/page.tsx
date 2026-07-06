@@ -665,31 +665,43 @@ const rankedCompareList = [...compareList].sort((a, b) => {
   return scoreB - scoreA;
 });
 
+  const fieldClassName =
+    "mt-1 rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-slate-800 shadow-sm transition placeholder:text-slate-400 focus:border-amber-300 focus:outline-none focus:ring-2 focus:ring-amber-100";
+  const textareaClassName =
+    "mt-1 rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-slate-800 shadow-sm transition resize-none placeholder:text-slate-400 focus:border-amber-300 focus:outline-none focus:ring-2 focus:ring-amber-100";
+
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-800 font-sans">
-      <header className="bg-slate-900 text-white">
-        <div className="mx-auto max-w-5xl px-4 py-6">
-          <h1 className="text-2xl font-bold">求人スコアチェッカー</h1>
-          <p className="mt-1 text-sm text-slate-200">
-            求人票の条件が生活・家族時間・体力・メンタルにどう影響するかを見える化。
+    <div className="min-h-screen bg-[#f8f3ea] text-slate-800 font-sans">
+      <header className="bg-gradient-to-r from-slate-900 via-slate-800 to-[#6b5b43] text-white shadow-[0_10px_40px_rgba(15,23,42,0.12)]">
+        <div className="mx-auto max-w-5xl px-4 py-7 sm:py-8">
+          <div className="inline-flex items-center rounded-full border border-white/15 bg-white/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.24em] text-amber-100/90">
+            カワウソ相談員ラテの転職相談室
+          </div>
+          <h1 className="mt-3 text-2xl font-bold sm:text-3xl">求人スコアチェッカー</h1>
+          <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-200 sm:text-base">
+            求人票の条件を、家族時間・体力・生活の安心感に沿ってやさしく整理できます。
           </p>
+          <p className="mt-2 text-sm text-amber-100/80">数字だけでなく、暮らしのことも一緒に考えられるように。</p>
         </div>
       </header>
 
       <main className="mx-auto max-w-5xl px-4 py-8">
-        <section className="bg-white rounded-lg shadow-sm p-6 mb-6">
-          <h2 className="text-xl font-semibold text-slate-900">生活への影響を可視化する求人比較</h2>
+        <section className="mb-6 rounded-[28px] border border-amber-100 bg-white/95 p-6 shadow-sm">
+          <h2 className="text-xl font-semibold text-slate-900">生活への影響をやさしく見える化する求人比較</h2>
           <p className="mt-2 text-slate-600">
-            入力した条件から、家族時間、生活破壊リスク、ブラック臭ポイントがどう変わるかを確認できます。
+            入力した条件から、家族時間・生活破壊リスク・ブラック臭ポイントがどう変わるかを、一緒に整理できます。
           </p>
         </section>
 
         <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
           <div className="md:col-span-2">
-            <section className="bg-white rounded-lg shadow p-6">
+            <section className="rounded-[28px] border border-amber-100 bg-white/95 p-6 shadow-sm">
               <h3 className="text-lg font-medium text-slate-900">求人入力フォーム</h3>
+              <p className="mt-2 text-sm leading-6 text-slate-600">
+                まずは条件を整理し、ラテが安心して見られる形に整えましょう。
+              </p>
               <form className="mt-4 space-y-4">
-                <div className="space-y-3 rounded-xl border border-slate-200 bg-slate-50 p-4">
+                <div className="space-y-3 rounded-2xl border border-amber-100 bg-amber-50/60 p-4 shadow-sm">
                   <label className="flex flex-col gap-2 text-sm text-slate-700">
                     <span className="font-medium">求人票を貼り付ける</span>
                     <span className="text-slate-500">
@@ -699,17 +711,17 @@ const rankedCompareList = [...compareList].sort((a, b) => {
                   <textarea
                     value={formData.jobPostText}
                     onChange={(event) => updateField("jobPostText", event.target.value)}
-                    className="h-36 w-full rounded-md border border-slate-200 bg-white px-3 py-2 text-slate-800 shadow-sm focus:border-slate-400 focus:outline-none"
+                    className={`h-36 w-full ${textareaClassName}`}
                     placeholder="ここに求人票のテキストを貼り付けてください。"
                   />
                   <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-                    <p className="text-xs text-slate-500">
-                      自動入力は求人票の表記によって誤認識する場合があります。送信・判断前に必ず内容を確認してください。
+                    <p className="text-xs leading-5 text-slate-500">
+                      自動入力は求人票の表記によって誤認識する場合があります。判断前に内容を確認してください。
                     </p>
                     <button
                       type="button"
                       onClick={handleAutoFillFromText}
-                      className="inline-flex items-center justify-center rounded-md bg-slate-900 px-4 py-2 text-sm font-semibold text-white hover:bg-slate-800"
+                      className="inline-flex items-center justify-center rounded-full bg-slate-900 px-5 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-[#6b5b43]"
                     >
                       求人票から自動入力
                     </button>
@@ -722,7 +734,7 @@ const rankedCompareList = [...compareList].sort((a, b) => {
                     <input
                       value={formData.companyName}
                       onChange={(event) => updateField("companyName", event.target.value)}
-                      className="mt-1 rounded-md border border-slate-200 px-3 py-2"
+                      className={fieldClassName}
                       placeholder="例: 株式会社サンプル"
                     />
                   </label>
@@ -731,7 +743,7 @@ const rankedCompareList = [...compareList].sort((a, b) => {
                     <input
                       value={formData.jobTitle}
                       onChange={(event) => updateField("jobTitle", event.target.value)}
-                      className="mt-1 rounded-md border border-slate-200 px-3 py-2"
+                      className={fieldClassName}
                       placeholder="例: フロントエンドエンジニア"
                     />
                   </label>
@@ -743,7 +755,7 @@ const rankedCompareList = [...compareList].sort((a, b) => {
                     <select
                       value={formData.industry}
                       onChange={(event) => updateField("industry", event.target.value)}
-                      className="mt-1 rounded-md border border-slate-200 bg-white px-3 py-2"
+                      className={fieldClassName}
                     >
                       {industryOptions.map((option) => (
                         <option key={option} value={option}>
@@ -757,7 +769,7 @@ const rankedCompareList = [...compareList].sort((a, b) => {
                     <select
                       value={formData.priority}
                       onChange={(event) => updateField("priority", event.target.value)}
-                      className="mt-1 rounded-md border border-slate-200 bg-white px-3 py-2"
+                      className={fieldClassName}
                     >
                       {priorityOptions.map((option) => (
                         <option key={option} value={option}>
@@ -774,7 +786,7 @@ const rankedCompareList = [...compareList].sort((a, b) => {
                     <input
                       value={formData.salary}
                       onChange={(event) => updateField("salary", event.target.value)}
-                      className="mt-1 rounded-md border border-slate-200 px-3 py-2"
+                      className={fieldClassName}
                       placeholder="¥300,000"
                     />
                   </label>
@@ -783,7 +795,7 @@ const rankedCompareList = [...compareList].sort((a, b) => {
                     <input
                       value={formData.annualIncome}
                       onChange={(event) => updateField("annualIncome", event.target.value)}
-                      className="mt-1 rounded-md border border-slate-200 px-3 py-2"
+                      className={fieldClassName}
                       placeholder="¥4,000,000"
                     />
                   </label>
@@ -792,7 +804,7 @@ const rankedCompareList = [...compareList].sort((a, b) => {
                     <input
                       value={formData.annualHolidays}
                       onChange={(event) => updateField("annualHolidays", event.target.value)}
-                      className="mt-1 rounded-md border border-slate-200 px-3 py-2"
+                      className={fieldClassName}
                       placeholder="120"
                     />
                   </label>
@@ -804,7 +816,7 @@ const rankedCompareList = [...compareList].sort((a, b) => {
                     <input
                       value={formData.overtime}
                       onChange={(event) => updateField("overtime", event.target.value)}
-                      className="mt-1 rounded-md border border-slate-200 px-3 py-2"
+                      className={fieldClassName}
                       placeholder="月30時間"
                     />
                   </label>
@@ -813,7 +825,7 @@ const rankedCompareList = [...compareList].sort((a, b) => {
                     <input
                       value={formData.location}
                       onChange={(event) => updateField("location", event.target.value)}
-                      className="mt-1 rounded-md border border-slate-200 px-3 py-2"
+                      className={fieldClassName}
                       placeholder="東京都 港区"
                     />
                   </label>
@@ -822,14 +834,14 @@ const rankedCompareList = [...compareList].sort((a, b) => {
                     <input
                       value={formData.commute}
                       onChange={(event) => updateField("commute", event.target.value)}
-                      className="mt-1 rounded-md border border-slate-200 px-3 py-2"
+                      className={fieldClassName}
                       placeholder="例: 40分"
                     />
                   </label>
                 </div>
 
                 <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
-                  <label className="flex items-center gap-3">
+                  <label className="flex items-center gap-3 rounded-xl border border-slate-200 bg-white px-3 py-2.5 shadow-sm">
                     <input
                       type="checkbox"
                       checked={formData.nightShift}
@@ -838,7 +850,7 @@ const rankedCompareList = [...compareList].sort((a, b) => {
                     />
                     <span className="text-sm text-slate-700">夜勤あり</span>
                   </label>
-                  <label className="flex items-center gap-3">
+                  <label className="flex items-center gap-3 rounded-xl border border-slate-200 bg-white px-3 py-2.5 shadow-sm">
                     <input
                       type="checkbox"
                       checked={formData.fixedOvertime}
@@ -854,7 +866,7 @@ const rankedCompareList = [...compareList].sort((a, b) => {
                   <textarea
                     value={formData.jobMemo}
                     onChange={(event) => updateField("jobMemo", event.target.value)}
-                    className="mt-1 h-24 rounded-md border border-slate-200 px-3 py-2 resize-none"
+                    className={textareaClassName}
                     placeholder="業務内容や注意点をメモ"
                   />
                 </label>
@@ -864,7 +876,7 @@ const rankedCompareList = [...compareList].sort((a, b) => {
                   <textarea
                     value={formData.concerns}
                     onChange={(event) => updateField("concerns", event.target.value)}
-                    className="mt-1 h-20 rounded-md border border-slate-200 px-3 py-2 resize-none"
+                    className={textareaClassName}
                     placeholder="気になる働き方・条件"
                   />
                 </label>
@@ -874,7 +886,7 @@ const rankedCompareList = [...compareList].sort((a, b) => {
                   <textarea
                     value={formData.interviewIssue}
                     onChange={(event) => updateField("interviewIssue", event.target.value)}
-                    className="mt-1 h-20 rounded-md border border-slate-200 px-3 py-2 resize-none"
+                    className={textareaClassName}
                     placeholder="面接で感じた違和感を記載"
                   />
                 </label>
@@ -884,7 +896,7 @@ const rankedCompareList = [...compareList].sort((a, b) => {
                   <textarea
                     value={formData.gutMemo}
                     onChange={(event) => updateField("gutMemo", event.target.value)}
-                    className="mt-1 h-20 rounded-md border border-slate-200 px-3 py-2 resize-none"
+                    className={textareaClassName}
                     placeholder="直感的な印象や判断メモ"
                   />
                 </label>
@@ -893,7 +905,7 @@ const rankedCompareList = [...compareList].sort((a, b) => {
                   <button
                     type="button"
                     onClick={clearForm}
-                    className="inline-flex items-center gap-2 rounded-md bg-slate-900 px-4 py-2 text-white hover:bg-slate-800"
+                    className="inline-flex items-center gap-2 rounded-full bg-slate-900 px-5 py-2 text-white shadow-sm transition hover:bg-[#6b5b43]"
                   >
                     入力をクリア
                   </button>
@@ -901,9 +913,9 @@ const rankedCompareList = [...compareList].sort((a, b) => {
               </form>
             </section>
 
-            <section className="bg-white rounded-lg shadow p-6">
+            <section className="rounded-[28px] border border-amber-100 bg-white/95 p-6 shadow-sm">
               <h3 className="text-lg font-medium text-slate-900">自己条件フォーム</h3>
-              <p className="mt-2 text-sm text-slate-600">
+              <p className="mt-2 text-sm leading-6 text-slate-600">
                 あなた自身の年齢層や価値観、耐性を入力して、求人との相性を考える参考にできます。
               </p>
               <div className="mt-4 space-y-4">
@@ -913,7 +925,7 @@ const rankedCompareList = [...compareList].sort((a, b) => {
                     <select
                       value={formData.ageGroup}
                       onChange={(event) => updateField("ageGroup", event.target.value)}
-                      className="mt-1 rounded-md border border-slate-200 bg-white px-3 py-2"
+                      className={fieldClassName}
                     >
                       {ageGroupOptions.map((option) => (
                         <option key={option} value={option}>
@@ -927,7 +939,7 @@ const rankedCompareList = [...compareList].sort((a, b) => {
                     <select
                       value={formData.familyTimeImportance}
                       onChange={(event) => updateField("familyTimeImportance", event.target.value)}
-                      className="mt-1 rounded-md border border-slate-200 bg-white px-3 py-2"
+                      className={fieldClassName}
                     >
                       {importanceOptions.map((option) => (
                         <option key={option} value={option}>
@@ -944,7 +956,7 @@ const rankedCompareList = [...compareList].sort((a, b) => {
                     <select
                       value={formData.physicalAnxiety}
                       onChange={(event) => updateField("physicalAnxiety", event.target.value)}
-                      className="mt-1 rounded-md border border-slate-200 bg-white px-3 py-2"
+                      className={fieldClassName}
                     >
                       {toleranceOptions.map((option) => (
                         <option key={option} value={option}>
@@ -958,7 +970,7 @@ const rankedCompareList = [...compareList].sort((a, b) => {
                     <select
                       value={formData.nightShiftTolerance}
                       onChange={(event) => updateField("nightShiftTolerance", event.target.value)}
-                      className="mt-1 rounded-md border border-slate-200 bg-white px-3 py-2"
+                      className={fieldClassName}
                     >
                       {toleranceOptions.map((option) => (
                         <option key={option} value={option}>
@@ -972,7 +984,7 @@ const rankedCompareList = [...compareList].sort((a, b) => {
                     <select
                       value={formData.commuteTolerance}
                       onChange={(event) => updateField("commuteTolerance", event.target.value)}
-                      className="mt-1 rounded-md border border-slate-200 bg-white px-3 py-2"
+                      className={fieldClassName}
                     >
                       {toleranceOptions.map((option) => (
                         <option key={option} value={option}>
@@ -989,7 +1001,7 @@ const rankedCompareList = [...compareList].sort((a, b) => {
                     <select
                       value={formData.stressTolerance}
                       onChange={(event) => updateField("stressTolerance", event.target.value)}
-                      className="mt-1 rounded-md border border-slate-200 bg-white px-3 py-2"
+                      className={fieldClassName}
                     >
                       {toleranceOptions.map((option) => (
                         <option key={option} value={option}>
@@ -1005,7 +1017,7 @@ const rankedCompareList = [...compareList].sort((a, b) => {
                   <textarea
                     value={formData.personalityMemo}
                     onChange={(event) => updateField("personalityMemo", event.target.value)}
-                    className="mt-1 h-24 rounded-md border border-slate-200 px-3 py-2 resize-none"
+                    className={textareaClassName}
                     placeholder="性格や自己診断結果のメモ"
                   />
                 </label>
@@ -1015,7 +1027,7 @@ const rankedCompareList = [...compareList].sort((a, b) => {
                   <textarea
                     value={formData.pastMismatch}
                     onChange={(event) => updateField("pastMismatch", event.target.value)}
-                    className="mt-1 h-20 rounded-md border border-slate-200 px-3 py-2 resize-none"
+                    className={textareaClassName}
                     placeholder="以前に合わなかった職種や働き方"
                   />
                 </label>
@@ -1025,7 +1037,7 @@ const rankedCompareList = [...compareList].sort((a, b) => {
                   <textarea
                     value={formData.avoidConditions}
                     onChange={(event) => updateField("avoidConditions", event.target.value)}
-                    className="mt-1 h-20 rounded-md border border-slate-200 px-3 py-2 resize-none"
+                    className={textareaClassName}
                     placeholder="避けたい勤務条件や職場の特徴"
                   />
                 </label>
@@ -1034,143 +1046,146 @@ const rankedCompareList = [...compareList].sort((a, b) => {
           </div>
 
           <aside className="md:col-span-1">
-            <section className="bg-white rounded-lg shadow p-6">
-              <div className="flex items-start justify-between">
-                <h3 className="text-lg font-medium text-slate-900">評価カード（プレビュー）</h3>
-                <div className="flex items-center gap-3">
+            <section className="rounded-[28px] border border-amber-100 bg-white/95 p-6 shadow-sm">
+              <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+                <div>
+                  <h3 className="text-lg font-medium text-slate-900">評価カード（プレビュー）</h3>
+                  <p className="mt-1 text-sm text-slate-500">気になる求人を、やさしい言葉と数字の両方で確認できます。</p>
+                </div>
+                <div className="flex flex-wrap items-center gap-2">
                   <button
                     type="button"
                     onClick={handleCopyResults}
-                    className="inline-flex items-center justify-center rounded-md bg-slate-900 px-3 py-1 text-sm font-semibold text-white hover:bg-slate-800"
+                    className="inline-flex items-center justify-center rounded-full bg-slate-900 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-[#6b5b43]"
                   >
                     診断結果をコピー
                   </button>
-                  
+
                   <button
-  type="button"
-  onClick={handleAddToCompare}
-  className="inline-flex items-center justify-center rounded-md bg-emerald-600 px-3 py-1 text-sm font-semibold text-white hover:bg-emerald-700"
->
-  比較リストに追加
-</button>
-                  {copyStatus === "success" && (
-                    <span className="text-sm text-emerald-600">コピーしました</span>
-                  )}
-                  {copyStatus === "error" && (
-                    <span className="text-sm text-red-600">{copyError}</span>
-                  )}
-                  {compareMessage && (
-  <span className="text-sm text-slate-600">{compareMessage}</span>
-)}
+                    type="button"
+                    onClick={handleAddToCompare}
+                    className="inline-flex items-center justify-center rounded-full bg-emerald-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-emerald-700"
+                  >
+                    比較リストに追加
+                  </button>
                 </div>
               </div>
+              <div className="mt-4 flex flex-wrap items-center gap-2">
+                {copyStatus === "success" && (
+                  <span className="rounded-full bg-emerald-50 px-3 py-1 text-sm text-emerald-700">コピーしました</span>
+                )}
+                {copyStatus === "error" && (
+                  <span className="rounded-full bg-red-50 px-3 py-1 text-sm text-red-700">{copyError}</span>
+                )}
+                {compareMessage && (
+                  <span className="rounded-full bg-amber-50 px-3 py-1 text-sm text-amber-700">{compareMessage}</span>
+                )}
+              </div>
               <div className="mt-4 space-y-4">
-                <div>
+                <div className="rounded-2xl border border-amber-100 bg-amber-50/50 p-4">
                   <div className="flex items-center justify-between">
-                    <span className="text-sm font-medium">総合スコア</span>
+                    <span className="text-sm font-medium text-slate-700">総合スコア</span>
                     <span className="text-sm font-semibold text-slate-900">{overallScore}</span>
                   </div>
-                  <div className="mt-2 h-3 w-full rounded-full bg-slate-100">
-                    <div className="h-3 rounded-full bg-red-500" style={{ width: `${overallScore}%` }} />
+                  <div className="mt-2 h-3 w-full rounded-full bg-white/80">
+                    <div className="h-3 rounded-full bg-emerald-400" style={{ width: `${overallScore}%` }} />
                   </div>
                 </div>
 
-                <div>
+                <div className="rounded-2xl border border-amber-100 bg-white p-4">
                   <div className="flex items-center justify-between">
-                    <span className="text-sm font-medium">家族時間スコア</span>
-                    <span className="text-sm font-semibold">{familyTimeScore}</span>
+                    <span className="text-sm font-medium text-slate-700">家族時間スコア</span>
+                    <span className="text-sm font-semibold text-slate-900">{familyTimeScore}</span>
                   </div>
                   <div className="mt-2 h-3 w-full rounded-full bg-slate-100">
-                    <div className="h-3 rounded-full bg-emerald-500" style={{ width: `${familyTimeScore}%` }} />
+                    <div className="h-3 rounded-full bg-teal-400" style={{ width: `${familyTimeScore}%` }} />
                   </div>
                 </div>
 
-                <div>
+                <div className="rounded-2xl border border-amber-100 bg-white p-4">
                   <div className="flex items-center justify-between">
-                    <span className="text-sm font-medium">生活破壊リスク</span>
+                    <span className="text-sm font-medium text-slate-700">生活破壊リスク</span>
                     <span className="text-sm font-semibold text-red-700">{lifestyleRisk}</span>
                   </div>
                   <div className="mt-2 h-3 w-full rounded-full bg-slate-100">
-                    <div className="h-3 rounded-full bg-red-600" style={{ width: `${lifestyleRisk}%` }} />
+                    <div className="h-3 rounded-full bg-orange-400" style={{ width: `${lifestyleRisk}%` }} />
                   </div>
                 </div>
 
-                <div>
+                <div className="rounded-2xl border border-amber-100 bg-white p-4">
                   <div className="flex items-center justify-between">
-                    <span className="text-sm font-medium">ブラック臭ポイント</span>
+                    <span className="text-sm font-medium text-slate-700">ブラック臭ポイント</span>
                     <span className="text-sm font-semibold text-red-700">{blackSmellPoint}</span>
                   </div>
                   <div className="mt-2 h-3 w-full rounded-full bg-slate-100">
-                    <div className="h-3 rounded-full bg-red-600" style={{ width: `${blackSmellPoint}%` }} />
+                    <div className="h-3 rounded-full bg-amber-400" style={{ width: `${blackSmellPoint}%` }} />
                   </div>
                 </div>
 
-                <div className="mt-3 border-t pt-3">
-                  <span className="text-sm font-medium">応募判断</span>
+                <div className="rounded-2xl border border-amber-100 bg-amber-50/50 p-4">
+                  <span className="text-sm font-medium text-slate-700">応募判断</span>
                   <div className="mt-2">
-                    <span className="inline-flex rounded-full bg-slate-100 px-3 py-1 text-sm font-medium text-slate-800">
+                    <span className="inline-flex rounded-full bg-white px-3 py-1.5 text-sm font-medium text-slate-800 shadow-sm">
                       {evaluationLabel}
                     </span>
                   </div>
-                  <p className="mt-2 text-sm text-slate-600">{judgmentComment}</p>
+                  <p className="mt-2 text-sm leading-6 text-slate-600">{judgmentComment}</p>
                 </div>
 
-                <div className="mt-3 border-t pt-3">
-                  <span className="text-sm font-medium">総合コメント</span>
+                <div className="rounded-2xl border border-amber-100 bg-white p-4">
+                  <span className="text-sm font-medium text-slate-700">総合コメント</span>
 
-<div className="mt-3 flex gap-3 rounded-2xl border border-amber-100 bg-amber-50/60 p-3">
-  <img
-    src="/latte.png"
-    alt="カワウソ相談員ラテ"
-    className="h-14 w-14 flex-shrink-0 rounded-full object-cover"
-  />
-  <div>
-    <p className="text-sm font-semibold text-slate-900">
-      ラテからひとこと
-    </p>
-    <p className="mt-1 text-sm leading-6 text-slate-600">
-      焦らず、条件を一つずつ整理していきましょう。数字だけでなく、生活への影響も大切な判断材料です。
-    </p>
-  </div>
-</div>
+                  <div className="mt-3 flex gap-3 rounded-2xl border border-amber-100 bg-amber-50/70 p-3 shadow-sm">
+                    <img
+                      src="/latte.png"
+                      alt="カワウソ相談員ラテ"
+                      className="h-14 w-14 flex-shrink-0 rounded-full object-cover"
+                    />
+                    <div>
+                      <p className="text-sm font-semibold text-slate-900">ラテからひとこと</p>
+                      <p className="mt-1 text-sm leading-6 text-slate-600">
+                        焦らず、一つずつ条件を整理していきましょう。暮らしの安心感も大切な判断材料です。
+                      </p>
+                    </div>
+                  </div>
 
-<p className="mt-3 text-sm leading-6 text-slate-600">{summaryComment}</p>
+                  <p className="mt-3 text-sm leading-6 text-slate-600">{summaryComment}</p>
                 </div>
 
-                <div className="mt-3 border-t pt-3">
-                  <span className="text-sm font-medium">自分との相性スコア</span>
+                <div className="rounded-2xl border border-amber-100 bg-white p-4">
+                  <span className="text-sm font-medium text-slate-700">自分との相性スコア</span>
                   <div className="mt-2 flex items-center justify-between text-sm font-semibold text-slate-900">
                     <span>{selfMatchScore}</span>
                     <span className="text-slate-500">参考値</span>
                   </div>
                 </div>
 
-                <div className="mt-3 border-t pt-3">
-                  <span className="text-sm font-medium">体力負担リスク</span>
+                <div className="rounded-2xl border border-amber-100 bg-white p-4">
+                  <span className="text-sm font-medium text-slate-700">体力負担リスク</span>
                   <div className="mt-2 flex items-center justify-between text-sm font-semibold text-red-700">
                     <span>{physicalRisk}</span>
                     <span className="text-slate-500">高いほど要注意</span>
                   </div>
                 </div>
 
-                <div className="mt-3 border-t pt-3">
-                  <span className="text-sm font-medium">家庭影響リスク</span>
+                <div className="rounded-2xl border border-amber-100 bg-white p-4">
+                  <span className="text-sm font-medium text-slate-700">家庭影響リスク</span>
                   <div className="mt-2 flex items-center justify-between text-sm font-semibold text-red-700">
                     <span>{homeImpactRisk}</span>
                     <span className="text-slate-500">低いほうが安心</span>
                   </div>
                 </div>
 
-                <div className="mt-3 border-t pt-3">
-                  <span className="text-sm font-medium">価値観とのズレ</span>
+                <div className="rounded-2xl border border-amber-100 bg-white p-4">
+                  <span className="text-sm font-medium text-slate-700">価値観とのズレ</span>
                   <div className="mt-2 flex items-center justify-between text-sm font-semibold text-amber-700">
                     <span>{valueMismatch}</span>
                     <span className="text-slate-500">大きいほど注意</span>
                   </div>
                 </div>
 
-                <div className="mt-3 border-t pt-3">
-                  <span className="text-sm font-medium">確認すべきポイント</span>
+                <div className="rounded-2xl border border-amber-100 bg-white p-4">
+                  <span className="text-sm font-medium text-slate-700">確認すべきポイント</span>
                   <ul className="mt-2 space-y-2 text-sm text-slate-600">
                     {personalCheckPoints.map((question) => (
                       <li key={question} className="list-disc pl-5">
@@ -1180,14 +1195,14 @@ const rankedCompareList = [...compareList].sort((a, b) => {
                   </ul>
                 </div>
 
-                <div className="mt-3 border-t pt-3">
-                  <span className="text-sm font-medium">業界別アドバイス</span>
-                  <p className="mt-2 text-sm text-slate-600">{industryAdvice}</p>
+                <div className="rounded-2xl border border-amber-100 bg-white p-4">
+                  <span className="text-sm font-medium text-slate-700">業界別アドバイス</span>
+                  <p className="mt-2 text-sm leading-6 text-slate-600">{industryAdvice}</p>
                 </div>
 
-                <div className="mt-3 border-t pt-3">
-                  <span className="text-sm font-medium">重視点別アドバイス</span>
-                  <p className="mt-2 text-sm text-slate-600">{priorityAdvice}</p>
+                <div className="rounded-2xl border border-amber-100 bg-white p-4">
+                  <span className="text-sm font-medium text-slate-700">重視点別アドバイス</span>
+                  <p className="mt-2 text-sm leading-6 text-slate-600">{priorityAdvice}</p>
                 </div>
               </div>
             </section>
@@ -1195,87 +1210,88 @@ const rankedCompareList = [...compareList].sort((a, b) => {
         </div>
 
         <section className="mt-8">
-  <h3 className="text-lg font-semibold text-slate-900 mb-4">求人比較リスト</h3>
+          <h3 className="mb-4 text-lg font-semibold text-slate-900">求人比較リスト</h3>
 
-  {compareList.length === 0 ? (
-  <div className="flex flex-col items-center justify-center rounded-2xl border border-slate-200 bg-white p-8 text-center shadow-sm">
-    <img
-      src="/latte.png"
-      alt="カワウソ相談員ラテ"
-      className="mb-4 h-40 w-40 rounded-full object-cover"
-    />
-    <h4 className="text-lg font-bold text-slate-900">
-      ラテが求人比較をお手伝いします
-    </h4>
-    <p className="mt-2 max-w-md text-sm leading-6 text-slate-600">
-      気になる求人を比較リストに追加すると、年収だけでは見えない生活への負担や相性を一緒に整理できます。
-    </p>
-  </div>
-) : (
-    <div className="flex gap-4 overflow-x-auto pb-2">
-      {rankedCompareList.map((item, index) => (
-        <div key={item.id} className="min-w-[260px] flex-shrink-0 rounded-lg bg-white p-4 shadow">
-          <div className="flex items-start justify-between gap-3">
-            <div>
-              <span className="mb-2 inline-flex rounded-full bg-amber-100 px-3 py-1 text-xs font-bold text-amber-800">
-  おすすめ{index + 1}位
-</span>
-              <strong className="text-sm text-slate-900">{item.companyName}</strong>
-              <p className="mt-1 text-xs text-slate-500">{item.jobTitle}</p>
+          {compareList.length === 0 ? (
+            <div className="flex flex-col items-center justify-center rounded-[28px] border border-amber-100 bg-white/95 p-8 text-center shadow-sm">
+              <img
+                src="/latte.png"
+                alt="カワウソ相談員ラテ"
+                className="mb-4 h-40 w-40 rounded-full object-cover shadow-md"
+              />
+              <h4 className="text-lg font-bold text-slate-900">ラテが求人比較をお手伝いします</h4>
+              <p className="mt-2 max-w-md text-sm leading-6 text-slate-600">
+                気になる求人を比較リストに追加すると、年収だけでは見えない生活への負担や相性を一緒に整理できます。
+              </p>
             </div>
-            <button
-              type="button"
-              onClick={() => handleRemoveFromCompare(item.id)}
-              className="rounded-md bg-slate-100 px-2 py-1 text-xs text-slate-600 hover:bg-slate-200"
-            >
-              削除
-            </button>
-          </div>
+          ) : (
+            <div className="flex gap-4 overflow-x-auto pb-2">
+              {rankedCompareList.map((item, index) => (
+                <div
+                  key={item.id}
+                  className={`min-w-[280px] flex-shrink-0 rounded-[24px] border p-5 shadow-sm ${index === 0 ? "border-amber-300 bg-amber-50/60" : "border-amber-100 bg-white/95"}`}
+                >
+                  <div className="flex items-start justify-between gap-3">
+                    <div>
+                      <span className={`mb-2 inline-flex rounded-full px-3 py-1 text-xs font-bold ${index === 0 ? "bg-amber-200 text-amber-900" : "bg-amber-100 text-amber-800"}`}>
+                        おすすめ{index + 1}位
+                      </span>
+                      <strong className="text-sm text-slate-900">{item.companyName}</strong>
+                      <p className="mt-1 text-xs text-slate-500">{item.jobTitle}</p>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => handleRemoveFromCompare(item.id)}
+                      className="rounded-full bg-slate-100 px-2.5 py-1 text-xs text-slate-600 transition hover:bg-slate-200"
+                    >
+                      削除
+                    </button>
+                  </div>
 
-          <div className="mt-3 space-y-1 text-sm text-slate-700">
-            <p>業界：{item.industry || "-"}</p>
-            <p>月給：{item.salary || "-"}</p>
-            <p>想定年収：{item.annualIncome || "-"}</p>
-            <p>年間休日：{item.annualHolidays || "-"}</p>
-            <p>残業：{item.overtime || "-"}</p>
-            <p>通勤：{item.commute || "-"}</p>
-            <p>夜勤：{item.nightShift ? "あり" : "なし"}</p>
-            <p>固定残業代：{item.fixedOvertime ? "あり" : "なし"}</p>
-          </div>
+                  <div className="mt-3 space-y-1 text-sm text-slate-700">
+                    <p>業界：{item.industry || "-"}</p>
+                    <p>月給：{item.salary || "-"}</p>
+                    <p>想定年収：{item.annualIncome || "-"}</p>
+                    <p>年間休日：{item.annualHolidays || "-"}</p>
+                    <p>残業：{item.overtime || "-"}</p>
+                    <p>通勤：{item.commute || "-"}</p>
+                    <p>夜勤：{item.nightShift ? "あり" : "なし"}</p>
+                    <p>固定残業代：{item.fixedOvertime ? "あり" : "なし"}</p>
+                  </div>
 
-          <div className="mt-4 rounded-lg bg-slate-50 p-3 text-sm">
-            <div className="flex justify-between">
-              <span>総合スコア</span>
-              <strong>{item.overallScore}</strong>
-            </div>
-            <div className="mt-1 flex justify-between">
-              <span>家族時間</span>
-              <strong>{item.familyTimeScore}</strong>
-            </div>
-            <div className="mt-1 flex justify-between">
-              <span>生活破壊リスク</span>
-              <strong className="text-red-700">{item.lifestyleRisk}</strong>
-            </div>
-            <div className="mt-1 flex justify-between">
-              <span>ブラック臭</span>
-              <strong className="text-red-700">{item.blackSmellPoint}</strong>
-            </div>
-            <div className="mt-1 flex justify-between">
-              <span>相性</span>
-              <strong>{item.selfMatchScore}</strong>
-            </div>
-          </div>
+                  <div className={`mt-4 rounded-2xl p-3 text-sm ${index === 0 ? "bg-white/80" : "bg-amber-50/70"}`}>
+                    <div className="flex justify-between">
+                      <span>総合スコア</span>
+                      <strong>{item.overallScore}</strong>
+                    </div>
+                    <div className="mt-1 flex justify-between">
+                      <span>家族時間</span>
+                      <strong>{item.familyTimeScore}</strong>
+                    </div>
+                    <div className="mt-1 flex justify-between">
+                      <span>生活破壊リスク</span>
+                      <strong className="text-red-700">{item.lifestyleRisk}</strong>
+                    </div>
+                    <div className="mt-1 flex justify-between">
+                      <span>ブラック臭</span>
+                      <strong className="text-red-700">{item.blackSmellPoint}</strong>
+                    </div>
+                    <div className="mt-1 flex justify-between">
+                      <span>相性</span>
+                      <strong>{item.selfMatchScore}</strong>
+                    </div>
+                  </div>
 
-          <div className="mt-4">
-            <span className="inline-flex rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-800">
-              {item.evaluationLabel}
-            </span>
-          </div>
-        </div>
-      ))}
-    </div>
-  )}
-</section>
+                  <div className="mt-4">
+                    <span className="inline-flex rounded-full bg-white px-3 py-1 text-xs font-medium text-slate-800 shadow-sm">
+                      {item.evaluationLabel}
+                    </span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </section>
 
         <footer className="mt-10 text-center text-sm text-slate-500">
           ※この画面は見た目のMVPです。保存やログイン機能は未実装です。
